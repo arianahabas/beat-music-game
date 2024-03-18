@@ -1,0 +1,30 @@
+<div class="configure-form">
+    <form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="selectedGenre">Select Genre:</label>
+        <select formControlName="selectedGenre" id="selectedGenre">
+          <option value="">Choose...</option>
+          <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="difficulty">Select Difficulty:</label>
+        <select formControlName="difficulty" id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="gameType">Select Game Type:</label>
+        <select formControlName="gameType" id="gameType">
+          <option value="artist">Guess By Artist</option>
+          <option value="song">Guess By Song</option>
+        </select>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">Start Game</button>
+
+    </form>
+  </div>

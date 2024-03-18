@@ -1,0 +1,23 @@
+
+  <!-- For development purposes -->
+<div *ngIf="gameSettings">
+    <h3>Game Settings</h3>
+    <p>Selected Genre: {{ gameSettings.selectedGenre }}</p>
+    <p>Difficulty: {{ gameSettings.difficulty }}</p>
+  </div>
+  
+  <div *ngIf="tracks.length > 0">
+    <p>Number of Tracks: {{ numberOfTracks }}</p>
+    <p>Average Popularity: {{ averagePopularity | number:'1.0-2' }}</p>
+  </div>
+  
+  <div *ngIf="currentTrack">
+    <h2>Now Playing: {{ currentTrack.name }}</h2>
+    <p>Artist: {{ currentTrack.artists[0].name }}</p>
+    <button (click)="nextTrack()">Next Track</button>
+
+    
+    <!-- Implement audio player / game form / timer / scoring -->
+  </div>
+
+  
