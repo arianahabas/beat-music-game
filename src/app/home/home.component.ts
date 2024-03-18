@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import fetchFromSpotify, { request } from "../../services/api";
+import { Router } from '@angular/router'
 
 const AUTH_ENDPOINT =
   "https://nuod0t2zoe.execute-api.us-east-2.amazonaws.com/FT-Classroom/spotify-auth-token";
@@ -11,7 +12,8 @@ const TOKEN_KEY = "whos-who-access-token";
   styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  constructor(private router: Router) { }
+
 
   genres: String[] = ["House", "Alternative", "J-Rock", "R&B"];
   selectedGenre: String = "";
@@ -58,7 +60,7 @@ export class HomeComponent implements OnInit {
     // });
     // console.log(response);
     // #################################################################################
-    
+
     this.genres = [
       "rock",
       "rap",
@@ -78,5 +80,17 @@ export class HomeComponent implements OnInit {
     this.selectedGenre = selectedGenre;
     console.log(this.selectedGenre);
     console.log(TOKEN_KEY);
+  }
+
+  onCustomizeGame() {
+    this.router.navigateByUrl('/customize')
+  }
+
+  onLeaderboard() {
+    this.router.navigateByUrl('/leaderboard')
+  }
+
+  onStartGame() {
+    this.router.navigateByUrl('/game')
   }
 }
