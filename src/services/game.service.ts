@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { SpotifyService } from "./spotify.service";
 import { Router } from "@angular/router";
+import { StorageService } from "./storage.service";
 
 interface GameSettings {
 	selectedGenre: string;
@@ -13,18 +14,20 @@ interface GameSettings {
 	providedIn: "root",
 })
 export class GameService {
-	private score: number = 0;
 	public gameSettings!: GameSettings;
 	private timerInterval?: any;
 	private currentIndex = 0;
+	private score = new BehaviorSubject<number>(0);
 	private timeLeft = new BehaviorSubject<number>(45);
 	private currentTrack = new BehaviorSubject<any>(null);
 	private decoys = new BehaviorSubject<string[]>([]);
 	private correctOption = new BehaviorSubject<string>("");
 	private tracks = new BehaviorSubject<any[]>([]);
-	
 
-	constructor(private spotifyService: SpotifyService, private router: Router) {}
+
+	constructor(private spotifyService: SpotifyService,
+		private storageService: StorageService,
+		private router: Router) { }
 
 	// Observable getters for components to subscribe to.
 	get timeLeft$(): Observable<number> {
@@ -41,6 +44,10 @@ export class GameService {
 
 	get correctOption$(): Observable<string> {
 		return this.correctOption.asObservable();
+	}
+
+	get score$(): Observable<number> {
+		return this.score.asObservable();
 	}
 
 	// Initializes the game with provided settings and starts the game timer.
@@ -143,6 +150,7 @@ export class GameService {
 
 	// Ends the game and clears the timer.
 	endGame() {
+		this.storageService.save('playerScore', this.score.getValue())
 		clearInterval(this.timerInterval);
 		this.router.navigate(["/results"]);
 	}
@@ -150,7 +158,15 @@ export class GameService {
 	// Updates the score based on the correctness of the guess and moves to the next round.
 	makeGuess(isCorrect: boolean) {
 		//Add logic for scoring
+		if (isCorrect) {
+			this.incrementScore();
+		}
+		this.setupNextRound();
+	}
 
-		this.setupNextRound(); 
+	// Increment the score by 1 when the guess is correct
+	private incrementScore() {
+		const currentScore = this.score.value;
+		this.score.next(currentScore + 1);
 	}
 }

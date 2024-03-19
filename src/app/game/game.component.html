@@ -1,3 +1,4 @@
+
 <div *ngIf="showCountdown; else gameContent" class="countdown-container">
     <div class="countdown-message">
         <span>GAME BEGINS IN</span>
@@ -61,3 +62,30 @@
 		<p>Artist: {{ currentTrack.artists[0].name }}</p>
 	</div>
 </ng-template>
+
+<div class="container">
+  <div class="timer" [ngClass]="{ 'timer-red': timeLeft <= 10 }">
+    <h2>{{ timeLeft }}</h2>
+  </div>
+  <div class="songContainer">
+    <h1 class="title">BEAT THE BEAT</h1>
+    <ng-container *ngIf="currentTrack">
+      <app-audio-snippet [song]="currentTrack.preview_url"></app-audio-snippet>
+    </ng-container>
+  </div>
+  <h2>Score: {{ score }}</h2>
+</div>
+
+<div class="choiceContainer">
+  <h2 *ngIf="gameSettings.gameType === 'song'">WHAT SONG IS PLAYING?</h2>
+  <h2 *ngIf="gameSettings.gameType === 'artist'">WHO SINGS THIS SONG?</h2>
+
+  <app-guess-input [options]="options" (guessMade)="handleGuess($event)"></app-guess-input>
+</div>
+
+<div *ngIf="currentTrack" class="track-info">
+  <p>for dev purposes (delete after)</p>
+  <h2>Now Playing: {{ currentTrack.name }}</h2>
+  <p>Artist: {{ currentTrack.artists[0].name }}</p>
+</div>
+
