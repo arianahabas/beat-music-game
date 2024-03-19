@@ -1,180 +1,192 @@
 .title {
-    font-size: 72px; 
-    text-align: center;
-    color:#04AA6D;
+	font-size: 72px;
+	text-align: center;
+	color: #04aa6d;
 }
 
 .container {
-    max-width: 80vw;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto; 
-    margin-bottom: 84px;
-    align-items: baseline;
+	max-width: 80vw;
+	display: flex;
+	justify-content: space-between;
+	margin: 0 auto;
+	margin-bottom: 84px;
+	align-items: baseline;
 }
 
 .songContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .choiceContainer {
-    max-width: 80vw;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-content: space-between;
-    margin: 0 auto; 
-    margin-bottom: 84px;
+	max-width: 80vw;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: space-between;
+	margin: 0 auto;
+	margin-bottom: 84px;
 }
 
-  /* TIMER */
+/* TIMER */
 .timer {
-    border: 2px dotted grey;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f3f3f3;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2); 
-    transition: background-color 0.3s; 
-    color: #04AA6D;
+	border: 2px dotted grey;
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f3f3f3;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	transition: background-color 0.3s;
+	color: #04aa6d;
 }
 
 .timer h2 {
-    font-size: 38px; 
-    margin: 0; 
-    
+	font-size: 38px;
+	margin: 0;
 }
 
 .timer-red {
-    border-color: red;
-    color: red;
-    animation: pulseRed 1s infinite; 
+	border-color: red;
+	color: red;
+	animation: pulseRed 1s infinite;
 }
 
-  /* GAME SETTINGS PREVIEW & COUNTDOWN */
-  .countdown-text {
-    font-size: 5rem; 
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5); 
-  }
-  .countdown-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75); 
-    z-index: 1000;
-    color: white;
-    text-align: center;
+@keyframes pulseRed {
+	0% {
+		box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+	}
+	70% {
+		box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+	}
+}
+
+/* GAME SETTINGS PREVIEW & COUNTDOWN */
+.countdown-text {
+	font-size: 5rem;
+	color: white;
+	font-weight: bold;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.countdown-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.75);
+	z-index: 1000;
+	color: white;
+	text-align: center;
 }
 
 .countdown-message {
-    margin-bottom: 2rem; 
-    font-size: 2rem;
+	margin-bottom: 2rem;
+	font-size: 2rem;
 }
 
 .countdown-number {
-    font-size: 14rem; 
-    font-weight: bold;
-    line-height: 1;
-    display: block; 
+	font-size: 14rem;
+	font-weight: bold;
+	line-height: 1;
+	display: block;
 }
 
 .game-settings-preview {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    width: 30%; 
-    backdrop-filter: blur(10px);
-    border: 1px solid #fff;
-    position: fixed; 
-    bottom: 20px;
-    left: 50%; 
-    transform: translateX(-50%); 
-    display: flex; 
-    flex-direction: column; 
-    font-size: 1rem;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 10px;
+	width: 30%;
+	backdrop-filter: blur(10px);
+	border: 1px solid #fff;
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	flex-direction: column;
+	font-size: 1rem;
 }
 
 .game-settings-preview p {
-    margin-bottom: 10px; 
-    width: 100%; 
-    text-decoration: underline;
+	margin-bottom: 10px;
+	width: 100%;
+	text-decoration: underline;
 }
 
 .game-settings-preview ul {
-    list-style: none; 
-    padding: 0; 
-    margin: 0; 
-    width: 100%; 
-    justify-content: center; 
-    flex-wrap: wrap; 
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .game-settings-preview li {
-    margin: 0 5px; 
-    margin-bottom: 16px;
+	margin: 0 5px;
+	margin-bottom: 16px;
 }
 
-  /* Keyframes for fade-in animation */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  /* ANSWER FEEDBACK */
+
+/* ANSWER FEEDBACK */
 .feedback-container {
-    position: fixed;
-    left: 50%;
-    bottom: -100px; 
-    transform: translateX(-50%);
-    z-index: 1050; 
-    visibility: hidden; 
-    opacity: 0;
-    transition: opacity 0.5s, bottom 0.5s;
+  position: fixed;
+  left: 50%;
+  bottom: -100px; 
+  transform: translateX(-50%);
+  z-index: 1050; 
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s, bottom 0.5s;
+}
+
+.feedback-visible {
+  visibility: visible;
+  opacity: 1;
+  bottom: 30px; 
+  animation: fadeIn 0.5s ease-out; 
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
   }
-  
-  .feedback-visible {
-    visibility: visible;
-    opacity: 1;
-    bottom: 30px; 
+  to {
+      opacity: 1;
   }
-  
-  .feedback-slide-out {
-    opacity: 0;
-    bottom: -100px; 
-    transition: opacity 0.5s, bottom 0.5s;
-  }
-  
-  .feedback-message {
-    padding: 15px 30px;
-    color: white;
-    border-radius: 25px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .correct {
-    background-color: #4CAF50;
-  }
-  
-  .incorrect {
-    background-color: #F44336;
-  }
+}
+
+.feedback-slide-out {
+  opacity: 0;
+  bottom: -100px; 
+  transition: opacity 0.5s, bottom 0.5s;
+}
+
+.feedback-message {
+  padding: 15px 30px;
+  color: white;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.correct {
+  background-color: #04aa6d; 
+}
+
+.incorrect {
+  background-color: #f44336; 
+}

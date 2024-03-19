@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { StorageService } from 'src/services/storage.service';
+import { Router } from '@angular/router';
+import { LeaderboardEntry, StorageService } from 'src/services/storage.service';
 
 @Component({
   selector: 'app-results',
@@ -11,11 +12,9 @@ import { StorageService } from 'src/services/storage.service';
   styleUrls: ['./results.component.css']
 })
 export class ResultsComponent implements OnInit {
-  // TODO: get data from the game (score)
-  // TODO: Create addName form to add player's <name, score> to the leaderboard
   configForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private storageService: StorageService) { }
+  constructor(private fb: FormBuilder, private storageService: StorageService , private router: Router) { }
 
   ngOnInit(): void {
     this.createForm()
@@ -27,18 +26,26 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    console.log(this.storageService.load('gameSettings'))
-    if (this.configForm.valid) {
-      this.storageService.save('leaderboard', {
-        'name': this.configForm.value.name,
-        'score': this.storageService.load('playerScore'),
-        'genre': this.storageService.load('gameSettings').selectedGenre
-      });
-      this.configForm.reset()
+onSubmit() {
+  if (this.configForm.valid) {
+    const playerScore = this.storageService.load('playerScore');
+    const gameSettings = this.storageService.load('gameSettings');
+    if (gameSettings && playerScore !== undefined) {
+      const entry: LeaderboardEntry = {
+        name: this.configForm.value.name,
+        score: playerScore,
+        genre: gameSettings.selectedGenre.name 
+      };
+      this.storageService.addLeaderboardEntry(entry);
+      this.configForm.reset();
+      this.router.navigateByUrl("/leaderboard")
     } else {
-      alert("Please complete all selections.");
+      alert("Game settings or player score missing.");
     }
+  } else {
+    alert("Please enter your name.");
   }
+}
 
+ 
 }

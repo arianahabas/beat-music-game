@@ -1,19 +1,17 @@
-
 <div *ngIf="showCountdown; else gameContent" class="countdown-container">
-    <div class="countdown-message">
-        <span>GAME BEGINS IN</span>
-        <span class="countdown-number">{{ countdown }}</span>
-    </div>
-    <div class="game-settings-preview">
-        <p>CURRENT GAME SETTINGS:</p>
-        <ul>
-            <li>Genre: {{ gameSettings.genre }}</li>
-            <li>Difficulty: {{ gameSettings.difficulty }}</li>
-            <li>Game Type: {{ gameSettings.gameType }}</li>
-        </ul>
-    </div>
+	<div class="countdown-message">
+		<span>GAME BEGINS IN</span>
+		<span class="countdown-number">{{ countdown }}</span>
+	</div>
+	<div class="game-settings-preview">
+		<p>CURRENT GAME SETTINGS:</p>
+		<ul>
+			<li>Genre: {{ gameSettings.genreName }}</li>
+			<li>Difficulty: {{ gameSettings.difficulty }}</li>
+			<li>Game Type: {{ gameSettings.gameType }}</li>
+		</ul>
+	</div>
 </div>
-
 
 <ng-template #gameContent>
 	<div class="container">
@@ -23,7 +21,9 @@
 		<div class="songContainer">
 			<h1 class="title">BEAT THE BEAT</h1>
 			<ng-container *ngIf="currentTrack">
-				<app-audio-snippet [song]="currentTrack.preview_url"></app-audio-snippet>
+				<app-audio-snippet
+					[song]="currentTrack.preview_url"
+				></app-audio-snippet>
 			</ng-container>
 		</div>
 		<h2>Score: {{ score }}</h2>
@@ -37,7 +37,7 @@
 			[options]="options"
 			(guessMade)="handleGuess($event)"
 		></app-guess-input>
-	
+
 		<div
 			class="feedback-container"
 			[ngClass]="{ 'feedback-visible': feedbackVisible }"
@@ -54,11 +54,5 @@
 				}}</span>
 			</div>
 		</div>
-	</div>
-
-	<div *ngIf="currentTrack" class="track-info">
-		<p>for dev purposes (delete after)</p>
-		<h2>Now Playing: {{ currentTrack.name }}</h2>
-		<p>Artist: {{ currentTrack.artists[0].name }}</p>
 	</div>
 </ng-template>
