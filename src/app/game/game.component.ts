@@ -15,6 +15,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	options: string[] = [];
 	correctAnswer: string = "";
 	gameSettings: any;
+	score: number = 0;
 
 	private subscriptions = new Subscription();
 
@@ -22,7 +23,7 @@ export class GameComponent implements OnInit, OnDestroy {
 		private gameService: GameService,
 		private storageService: StorageService,
 		private router: Router
-	) {}
+	) { }
 
 	ngOnInit(): void {
 		this.gameSettings = this.storageService.load("gameSettings");
@@ -65,6 +66,12 @@ export class GameComponent implements OnInit, OnDestroy {
 				this.options = this.shuffleOptions([this.correctAnswer, ...decoys]);
 			})
 		);
+
+		this.subscriptions.add(
+			this.gameService.score$.subscribe((score) => {
+				this.score = score
+			})
+		)
 	}
 
 	handleGuess(selectedOption: string) {

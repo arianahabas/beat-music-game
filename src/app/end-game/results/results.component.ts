@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from 'src/services/storage.service';
 
 @Component({
   selector: 'app-results',
@@ -12,16 +13,32 @@ import { FormControl } from '@angular/forms';
 export class ResultsComponent implements OnInit {
   // TODO: get data from the game (score)
   // TODO: Create addName form to add player's <name, score> to the leaderboard
-  nameControl = new FormControl('');
+  configForm!: FormGroup;
 
-  constructor() { }
+  constructor(private fb: FormBuilder, private storageService: StorageService) { }
 
   ngOnInit(): void {
+    this.createForm()
+  }
+
+  private createForm() {
+    this.configForm = this.fb.group({
+      name: ["", Validators.required]
+    });
   }
 
   onSubmit() {
-    const nameValue = this.nameControl.value;
-    console.log('Submitted name:', nameValue);
+    console.log(this.storageService.load('gameSettings'))
+    if (this.configForm.valid) {
+      this.storageService.save('leaderboard', {
+        'name': this.configForm.value.name,
+        'score': this.storageService.load('playerScore'),
+        'genre': this.storageService.load('gameSettings').selectedGenre
+      });
+      this.configForm.reset()
+    } else {
+      alert("Please complete all selections.");
+    }
   }
 
 }

@@ -1,5 +1,12 @@
-<form (ngSubmit)="onSubmit()">
-    <label>Name: </label>
-    <input type="text" [formControl]="nameControl" />
-    <button type="submit">Submit</button>
-</form>
+<div class="container">
+    <h1>Please enter your name</h1>
+    <div class="configure-form">
+        <form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" formControlName="name" />
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
