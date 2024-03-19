@@ -13,11 +13,13 @@ import { LeaderboardEntry, StorageService } from 'src/services/storage.service';
 })
 export class ResultsComponent implements OnInit {
   configForm!: FormGroup;
+  score: number = 0
 
-  constructor(private fb: FormBuilder, private storageService: StorageService , private router: Router) { }
+  constructor(private fb: FormBuilder, private storageService: StorageService, private router: Router) { }
 
   ngOnInit(): void {
     this.createForm()
+    this.score = this.storageService.load('playerScore');
   }
 
   private createForm() {
@@ -26,26 +28,26 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-onSubmit() {
-  if (this.configForm.valid) {
-    const playerScore = this.storageService.load('playerScore');
-    const gameSettings = this.storageService.load('gameSettings');
-    if (gameSettings && playerScore !== undefined) {
-      const entry: LeaderboardEntry = {
-        name: this.configForm.value.name,
-        score: playerScore,
-        genre: gameSettings.selectedGenre.name 
-      };
-      this.storageService.addLeaderboardEntry(entry);
-      this.configForm.reset();
-      this.router.navigateByUrl("/leaderboard")
+  onSubmit() {
+    if (this.configForm.valid) {
+      const playerScore = this.storageService.load('playerScore');
+      const gameSettings = this.storageService.load('gameSettings');
+      if (gameSettings && playerScore !== undefined) {
+        const entry: LeaderboardEntry = {
+          name: this.configForm.value.name,
+          score: playerScore,
+          genre: gameSettings.selectedGenre.name
+        };
+        this.storageService.addLeaderboardEntry(entry);
+        this.configForm.reset();
+        this.router.navigateByUrl("/leaderboard")
+      } else {
+        alert("Game settings or player score missing.");
+      }
     } else {
-      alert("Game settings or player score missing.");
+      alert("Please enter your name.");
     }
-  } else {
-    alert("Please enter your name.");
   }
-}
 
- 
+
 }

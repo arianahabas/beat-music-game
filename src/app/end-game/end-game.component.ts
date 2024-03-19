@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-end-game',
@@ -10,21 +9,8 @@ export class EndGameComponent implements OnInit {
 
   // TODO: Add PlayAgain button which restarts game with the same settings
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
-
-  onHome() {
-    this.router.navigateByUrl("/")
-  }
-
-  onCustomizeGame() {
-    this.router.navigateByUrl("/configure")
-  }
-
-  onLeaderboard() {
-    this.router.navigateByUrl("/leaderboard")
-  }
-
 }

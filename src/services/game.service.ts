@@ -33,7 +33,7 @@ export class GameService {
 		private spotifyService: SpotifyService,
 		private storageService: StorageService,
 		private router: Router
-	) {}
+	) { }
 
 	// Observable getters for components to subscribe to.
 	get timeLeft$(): Observable<number> {
@@ -67,6 +67,7 @@ export class GameService {
 	// Resets the game state, clearing the timer and setting initial values.
 	private resetGame() {
 		this.timeLeft.next(45);
+		this.score.next(0);
 		if (this.timerInterval) {
 			clearInterval(this.timerInterval);
 			this.timerInterval = undefined;
