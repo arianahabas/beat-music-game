@@ -13,7 +13,8 @@ import { EndGameComponent } from "./end-game/end-game.component";
 import { ResultsComponent } from "./end-game/results/results.component";
 import { AudioSnippetComponent } from './game/audio-snippet/audio-snippet.component';
 
-import { GuessInputComponent } from './guess-input/guess-input.component';
+import { GuessInputComponent } from './game/guess-input/guess-input.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
 	{ path: "", component: HomeComponent },
@@ -24,7 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	declarations: [AppComponent, HomeComponent, ConfigureComponent, GameComponent, LeaderboardComponent, EndGameComponent, ResultsComponent, AudioSnippetComponent, GuessInputComponent, ],
+	declarations: [AppComponent, HomeComponent, ConfigureComponent, GameComponent, LeaderboardComponent, EndGameComponent, ResultsComponent, AudioSnippetComponent, GuessInputComponent, NavbarComponent, ],
 
 	imports: [
 		BrowserModule,
