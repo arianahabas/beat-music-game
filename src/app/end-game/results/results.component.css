@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 22px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin-top: 7px;
+    margin-left: 76px;
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+}
