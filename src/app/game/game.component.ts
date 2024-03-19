@@ -1,96 +1,81 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { StorageService } from "../../services/storage.service"; // Assume this exists and is correctly implemented
 import { Router } from "@angular/router";
-import { SpotifyService } from "../../services/spotify.service";
-import { StorageService } from "../../services/storage.service";
+import { SpotifyService } from "src/services/spotify.service";
+import { GameService } from "src/services/game.service";
 
 @Component({
 	selector: "app-game",
 	templateUrl: "./game.component.html",
 	styleUrls: ["./game.component.css"],
 })
-export class GameComponent implements OnInit {
-	gameSettings: any;
-	tracks: any[] = [];
-	currentTrackIndex: number = 0;
-	currentTrack: any = null;
+export class GameComponent implements OnInit, OnDestroy {
+	currentTrack: any;
+	timeLeft: number = 0;
+	options: string[] = [];
+	correctAnswer: string = "";
 
-	//for development purposes - remove after
-	numberOfTracks: number = 0;
-	averagePopularity: number = 0;
+	private subscriptions = new Subscription();
 
 	constructor(
-		private spotifyService: SpotifyService,
+		private gameService: GameService,
 		private storageService: StorageService,
 		private router: Router
-	) { }
+	) {}
 
 	ngOnInit(): void {
-		this.gameSettings = this.storageService.load("gameSettings");
-		if (!this.gameSettings) {
+		const gameSettings = this.storageService.load("gameSettings");
+		if (!gameSettings) {
 			this.router.navigate(["/configure"]);
 			return;
-		}
-		this.loadTracks();
-	}
-
-	private async loadTracks() {
-		if (this.gameSettings.selectedGenre && this.gameSettings.difficulty) {
-			try {
-				// Fetch playlists by the selected genre.
-				const playlists = await this.spotifyService.fetchPlaylistsByGenre(
-					this.gameSettings.selectedGenre
-				);
-
-				if (playlists.length > 0) {
-					const selectedPlaylist = playlists[0];
-
-					// Fetch tracks from the selected playlist, filtered by difficulty.
-					this.tracks = await this.spotifyService.fetchTracksFromPlaylist(
-						selectedPlaylist.id,
-						this.gameSettings.difficulty
-					);
-
-					if (this.tracks.length > 0) {
-						// filter out tracks with no preview url
-						this.tracks = this.tracks.filter(track => track.preview_url);
-						this.startGame();
-						this.numberOfTracks = this.tracks.length;
-						this.averagePopularity =
-							this.tracks.reduce((acc, track) => acc + track.popularity, 0) /
-							this.tracks.length;
-					} else {
-						console.log(
-							"No tracks found for the selected playlist and difficulty."
-						);
-					}
-				} else {
-					console.log("No playlists found for the selected genre.");
-				}
-			} catch (error) {
-				console.error("Failed to load tracks for the game:", error);
-			}
 		} else {
-			console.log("Game settings are incomplete.");
+			this.gameService.startGame(gameSettings);
+			this.observeGameChanges();
 		}
 	}
 
-	startGame() {
-		this.currentTrackIndex = 0;
-		this.updateCurrentTrack();
+	ngOnDestroy(): void {
+		this.subscriptions.unsubscribe();
 	}
 
-	nextTrack() {
-		// Move to the next track in the list
-		if (this.currentTrackIndex < this.tracks.length - 1) {
-			this.currentTrackIndex++;
-			this.updateCurrentTrack();
-		} else {
-			//what happens at the end of the playlist ? (restart, end game, etc.)
+	private observeGameChanges() {
+		this.subscriptions.add(
+			this.gameService.currentTrack$.subscribe((track) => {
+				this.currentTrack = track;
+			})
+		);
+
+		this.subscriptions.add(
+			this.gameService.timeLeft$.subscribe((timeLeft) => {
+				this.timeLeft = timeLeft;
+			})
+		);
+
+		this.subscriptions.add(
+			this.gameService.correctOption$.subscribe((correctOption) => {
+				this.correctAnswer = correctOption;
+			})
+		);
+
+		this.subscriptions.add(
+			this.gameService.decoys$.subscribe((decoys) => {
+				// Combine correct answer and decoys, then shuffle
+				this.options = this.shuffleOptions([this.correctAnswer, ...decoys]);
+			})
+		);
+	}
+
+	handleGuess(selectedOption: string) {
+		const isCorrect = selectedOption === this.correctAnswer;
+		this.gameService.makeGuess(isCorrect);
+	}
+
+	private shuffleOptions(options: string[]): string[] {
+		for (let i = options.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[options[i], options[j]] = [options[j], options[i]];
 		}
+		return options;
 	}
-
-	private updateCurrentTrack() {
-		this.currentTrack = this.tracks[this.currentTrackIndex];
-	}
-
 }
