@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
   }
 
   onCustomizeGame() {
-    this.router.navigateByUrl('/customize')
+    this.router.navigateByUrl('/configure')
   }
 
   onLeaderboard() {

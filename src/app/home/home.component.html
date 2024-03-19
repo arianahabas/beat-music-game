@@ -15,13 +15,3 @@
 <button class="submit-button" (click)="onCustomizeGame()">Customize Game</button>
 <button class="submit-button" (click)="onLeaderboard()">Leaderboard</button>
 <button class="submit-button" (click)="onStartGame()">Game</button>
-<div *ngIf="authLoading || configLoading">Loading...</div>
-<div *ngIf="!authLoading && !configLoading">
-  Genre:
-  <select [(ngModel)]="selectedGenre" (ngModelChange)="setGenre($event)">
-    <option [value]=""></option>
-    <option [value]="genre" *ngFor="let genre of genres">
-      {{ genre }}
-    </option>
-  </select>
-</div>

@@ -20,7 +20,7 @@ export class EndGameComponent implements OnInit {
   }
 
   onCustomizeGame() {
-    this.router.navigateByUrl("/customize")
+    this.router.navigateByUrl("/configure")
   }
 
   onLeaderboard() {
