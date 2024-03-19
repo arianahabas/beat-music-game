@@ -1,30 +1,63 @@
-<div class="configure-form">
-    <form [formGroup]="configForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="selectedGenre">Select Genre:</label>
-        <select formControlName="selectedGenre" id="selectedGenre">
-          <option value="">Choose...</option>
-          <option *ngFor="let genre of genres" [value]="genre.id">{{ genre.name }}</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="difficulty">Select Difficulty:</label>
-        <select formControlName="difficulty" id="difficulty">
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="gameType">Select Game Type:</label>
-        <select formControlName="gameType" id="gameType">
-          <option value="artist">Guess By Artist</option>
-          <option value="song">Guess By Song</option>
-        </select>
-      </div>
-  
-      <button type="submit" class="btn btn-primary">Start Game</button>
+<div class="container">
+	<h1>CONFIGURE GAME SETTINGS</h1>
+	<div class="configure-form">
+		<form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+			<div class="form-group">
+				<label for="selectedGenre">Select Genre:</label>
+				<select formControlName="selectedGenre" id="selectedGenre">
+					<option value="">Choose...</option>
+					<option *ngFor="let genre of genres" [value]="genre?.id">
+						{{ genre.name }}
+					</option>
+				</select>
+				<div
+					*ngIf="
+						configForm.get('selectedGenre')?.invalid &&
+						(configForm.get('selectedGenre')?.dirty ||
+							configForm.get('selectedGenre')?.touched)
+					"
+				>
+					<small class="text-danger">Please choose a genre.</small>
+				</div>
+			</div>
 
-    </form>
-  </div>
+			<div class="form-group">
+				<label for="difficulty">Select Difficulty:</label>
+				<select formControlName="difficulty" id="difficulty">
+					<option value="">Choose...</option>
+					<option value="easy">Easy</option>
+					<option value="medium">Medium</option>
+					<option value="hard">Hard</option>
+				</select>
+				<div
+					*ngIf="
+						configForm.get('difficulty')?.invalid &&
+						(configForm.get('difficulty')?.dirty ||
+							configForm.get('difficulty')?.touched)
+					"
+				>
+					<small class="text-danger">Please choose a difficulty.</small>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="gameType">Select Game Type:</label>
+				<select formControlName="gameType" id="gameType">
+					<option value="">Choose...</option>
+					<option value="artist">Guess By Artist</option>
+					<option value="song">Guess By Song</option>
+				</select>
+				<div
+					*ngIf="
+						configForm.get('gameType')?.invalid &&
+						(configForm.get('gameType')?.dirty ||
+							configForm.get('gameType')?.touched)
+					"
+				>
+					<small class="text-danger">Please choose a game type.</small>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Start Game</button>
+		</form>
+	</div>
+</div>

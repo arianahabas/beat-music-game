@@ -3,18 +3,18 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { SpotifyService } from "./spotify.service";
 import { Router } from "@angular/router";
 
-export interface GameSettings {
+interface GameSettings {
 	selectedGenre: string;
 	difficulty: string;
 	gameType: string;
-  }
+}
 
 @Injectable({
 	providedIn: "root",
 })
 export class GameService {
 	private score: number = 0;
-	private gameSettings!: GameSettings;
+	public gameSettings!: GameSettings;
 	private timerInterval?: any;
 	private currentIndex = 0;
 	private timeLeft = new BehaviorSubject<number>(45);
@@ -151,6 +151,6 @@ export class GameService {
 	makeGuess(isCorrect: boolean) {
 		//Add logic for scoring
 
-		this.setupNextRound(); // Moves to the next track.
+		this.setupNextRound(); 
 	}
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
-import { StorageService } from "../../services/storage.service"; // Assume this exists and is correctly implemented
+import { StorageService } from "../../services/storage.service";
 import { Router } from "@angular/router";
-import { SpotifyService } from "src/services/spotify.service";
 import { GameService } from "src/services/game.service";
 
 @Component({
@@ -15,6 +14,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	timeLeft: number = 0;
 	options: string[] = [];
 	correctAnswer: string = "";
+	gameSettings: any;
 
 	private subscriptions = new Subscription();
 
@@ -25,12 +25,12 @@ export class GameComponent implements OnInit, OnDestroy {
 	) {}
 
 	ngOnInit(): void {
-		const gameSettings = this.storageService.load("gameSettings");
-		if (!gameSettings) {
+		this.gameSettings = this.storageService.load("gameSettings");
+		if (!this.gameSettings) {
 			this.router.navigate(["/configure"]);
 			return;
 		} else {
-			this.gameService.startGame(gameSettings);
+			this.gameService.startGame(this.gameSettings);
 			this.observeGameChanges();
 		}
 	}
@@ -54,6 +54,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
 		this.subscriptions.add(
 			this.gameService.correctOption$.subscribe((correctOption) => {
+				console.log("New correct option:", correctOption);
 				this.correctAnswer = correctOption;
 			})
 		);

@@ -1,1 +1,22 @@
-<p>leaderboard works!</p>
+<h1>Populated with mock data</h1>
+<div class="container">
+	<div class="leaderboard-container">
+		<h1>LEADERBOARD</h1>
+        <h2>Genre: {{ currentGenre }}</h2>
+		<div class="leaderboard">
+			<div class="leaderboard-header">
+				<span>Rank</span>
+				<span>Name</span>
+				<span>Score</span>
+			</div>
+			<div
+				class="leaderboard-entry"
+				*ngFor="let entry of leaderboard; let i = index"
+			>
+				<span>{{ i + 1 }}</span>
+				<span>{{ entry.name }}</span>
+				<span>{{ entry.score }}</span>
+			</div>
+		</div>
+	</div>
+</div>
