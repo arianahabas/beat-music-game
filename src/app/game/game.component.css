@@ -29,6 +29,7 @@
     margin-bottom: 84px;
 }
 
+  /* TIMER */
 .timer {
     border: 2px dotted grey;
     border-radius: 50%;
@@ -55,8 +56,125 @@
     animation: pulseRed 1s infinite; 
 }
 
-@keyframes pulseRed {
-    0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(255, 0, 0, 1); }
-    100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+  /* GAME SETTINGS PREVIEW & COUNTDOWN */
+  .countdown-text {
+    font-size: 5rem; 
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5); 
+  }
+  .countdown-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75); 
+    z-index: 1000;
+    color: white;
+    text-align: center;
 }
+
+.countdown-message {
+    margin-bottom: 2rem; 
+    font-size: 2rem;
+}
+
+.countdown-number {
+    font-size: 14rem; 
+    font-weight: bold;
+    line-height: 1;
+    display: block; 
+}
+
+.game-settings-preview {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    width: 30%; 
+    backdrop-filter: blur(10px);
+    border: 1px solid #fff;
+    position: fixed; 
+    bottom: 20px;
+    left: 50%; 
+    transform: translateX(-50%); 
+    display: flex; 
+    flex-direction: column; 
+    font-size: 1rem;
+}
+
+.game-settings-preview p {
+    margin-bottom: 10px; 
+    width: 100%; 
+    text-decoration: underline;
+}
+
+.game-settings-preview ul {
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    width: 100%; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+}
+
+.game-settings-preview li {
+    margin: 0 5px; 
+    margin-bottom: 16px;
+}
+
+  /* Keyframes for fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* ANSWER FEEDBACK */
+.feedback-container {
+    position: fixed;
+    left: 50%;
+    bottom: -100px; 
+    transform: translateX(-50%);
+    z-index: 1050; 
+    visibility: hidden; 
+    opacity: 0;
+    transition: opacity 0.5s, bottom 0.5s;
+  }
+  
+  .feedback-visible {
+    visibility: visible;
+    opacity: 1;
+    bottom: 30px; 
+  }
+  
+  .feedback-slide-out {
+    opacity: 0;
+    bottom: -100px; 
+    transition: opacity 0.5s, bottom 0.5s;
+  }
+  
+  .feedback-message {
+    padding: 15px 30px;
+    color: white;
+    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .correct {
+    background-color: #4CAF50;
+  }
+  
+  .incorrect {
+    background-color: #F44336;
+  }

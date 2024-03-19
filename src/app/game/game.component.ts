@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Subscription, timer } from "rxjs";
 import { StorageService } from "../../services/storage.service";
 import { Router } from "@angular/router";
 import { GameService } from "src/services/game.service";
+import { take } from "rxjs/operators";
 
 @Component({
 	selector: "app-game",
@@ -10,11 +11,21 @@ import { GameService } from "src/services/game.service";
 	styleUrls: ["./game.component.css"],
 })
 export class GameComponent implements OnInit, OnDestroy {
+	//songs
 	currentTrack: any;
-	timeLeft: number = 0;
 	options: string[] = [];
 	correctAnswer: string = "";
 	gameSettings: any;
+
+	//timer
+	countdown: number = 5;
+	showCountdown: boolean = true;
+	timeLeft: number = 0;
+
+	//feedback
+	isCorrectAnswer: boolean | null = null;
+	feedbackVisible = false;
+	feedbackSlideOut = false;
 
 	private subscriptions = new Subscription();
 
@@ -30,15 +41,14 @@ export class GameComponent implements OnInit, OnDestroy {
 			this.router.navigate(["/configure"]);
 			return;
 		} else {
-			this.gameService.startGame(this.gameSettings);
-			this.observeGameChanges();
+			this.startCountdown();
 		}
 	}
 
 	ngOnDestroy(): void {
 		this.subscriptions.unsubscribe();
 	}
-
+	
 	private observeGameChanges() {
 		this.subscriptions.add(
 			this.gameService.currentTrack$.subscribe((track) => {
@@ -67,9 +77,39 @@ export class GameComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	startCountdown(): void {
+		const countdown$ = timer(1000, 1000).pipe(take(this.countdown));
+		this.subscriptions.add(
+			countdown$.subscribe({
+				next: () => {
+					this.countdown -= 1;
+				},
+				complete: () => {
+					this.showCountdown = false;
+					this.gameService.startGame(this.gameSettings);
+					this.observeGameChanges();
+				},
+			})
+		);
+	}
+
 	handleGuess(selectedOption: string) {
 		const isCorrect = selectedOption === this.correctAnswer;
+		this.isCorrectAnswer = isCorrect;
 		this.gameService.makeGuess(isCorrect);
+		this.showFeedback();
+	}
+
+	showFeedback() {
+		this.feedbackVisible = true;
+		this.feedbackSlideOut = false; 
+
+		setTimeout(() => {
+			this.feedbackSlideOut = true; 
+			setTimeout(() => {
+				this.feedbackVisible = false;
+			}, 500); 
+		}, 1000); 
 	}
 
 	private shuffleOptions(options: string[]): string[] {
