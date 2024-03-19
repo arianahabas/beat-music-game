@@ -22,7 +22,7 @@ export class GameComponent implements OnInit {
 		private spotifyService: SpotifyService,
 		private storageService: StorageService,
 		private router: Router
-	) {}
+	) { }
 
 	ngOnInit(): void {
 		this.gameSettings = this.storageService.load("gameSettings");
@@ -51,6 +51,8 @@ export class GameComponent implements OnInit {
 					);
 
 					if (this.tracks.length > 0) {
+						// filter out tracks with no preview url
+						this.tracks = this.tracks.filter(track => track.preview_url);
 						this.startGame();
 						this.numberOfTracks = this.tracks.length;
 						this.averagePopularity =
@@ -89,7 +91,6 @@ export class GameComponent implements OnInit {
 
 	private updateCurrentTrack() {
 		this.currentTrack = this.tracks[this.currentTrackIndex];
-
 	}
 
 }
