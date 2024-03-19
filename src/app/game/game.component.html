@@ -1,23 +1,28 @@
-<!-- For development purposes -->
-<div *ngIf="gameSettings">
-  <h3>Game Settings</h3>
-  <p>Selected Genre: {{ gameSettings.selectedGenre }}</p>
-  <p>Difficulty: {{ gameSettings.difficulty }}</p>
+<div class="container">
+	<div class="timer" [ngClass]="{ 'timer-red': timeLeft <= 10 }">
+		<h2>{{ timeLeft }}</h2>
+	</div>
+	<div class="songContainer">
+		<h1 class="title">BEAT THE BEAT</h1>
+		<ng-container *ngIf="currentTrack">
+			<app-audio-snippet [song]="currentTrack.preview_url"></app-audio-snippet>
+		</ng-container>
+	</div>
+	<h2>Score:</h2>
 </div>
 
-<div *ngIf="tracks.length > 0">
-  <p>Number of Tracks: {{ numberOfTracks }}</p>
-  <p>Average Popularity: {{ averagePopularity | number:'1.0-2' }}</p>
+<div class="choiceContainer">
+	<h2 *ngIf="gameSettings.gameType === 'song'">WHAT SONG IS PLAYING?</h2>
+	<h2 *ngIf="gameSettings.gameType === 'artist'">WHO SINGS THIS SONG?</h2>
+
+	<app-guess-input
+		[options]="options"
+		(guessMade)="handleGuess($event)"
+	></app-guess-input>
 </div>
 
-<div *ngIf="currentTrack">
-  <h2>Now Playing: {{ currentTrack.name }}</h2>
-  <p>Artist: {{ currentTrack.artists[0].name }}</p>
-  <button (click)="nextTrack()">Next Track</button>
-
-
-  <!-- Implement audio player / game form / timer / scoring -->
+<div *ngIf="currentTrack" class="track-info">
+	<p>for dev purposes (delete after)</p>
+	<h2>Now Playing: {{ currentTrack.name }}</h2>
+	<p>Artist: {{ currentTrack.artists[0].name }}</p>
 </div>
-<ng-container *ngIf="currentTrack">
-  <app-audio-snippet [song]="currentTrack.preview_url"></app-audio-snippet>
-</ng-container>

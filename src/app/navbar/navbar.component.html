@@ -1,0 +1,19 @@
+<nav class="navbar">
+	<a
+		routerLink="/"
+		routerLinkActive="active"
+		[routerLinkActiveOptions]="{ exact: true }"
+	>
+		<i class="fas fa-home"></i> Home
+	</a>
+	<div class="navbar-spacer"></div>
+	<a routerLink="/leaderboard" routerLinkActive="active">
+		<i class="fas fa-trophy"></i> LeaderBoard
+	</a>
+	<a routerLink="/configure" routerLinkActive="active">
+		<i class="fas fa-cog"></i> Settings
+	</a>
+	<a routerLink="/game" routerLinkActive="active">
+		<i class="fas fa-gamepad"></i> Game
+	</a>
+</nav>
