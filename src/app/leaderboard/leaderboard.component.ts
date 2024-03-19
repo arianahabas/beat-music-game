@@ -1,27 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { StorageService } from 'src/services/storage.service';
+import { Component, OnInit } from "@angular/core";
+import { LeaderboardEntry, StorageService } from "src/services/storage.service";
 
 @Component({
-  selector: 'app-leaderboard',
-  templateUrl: './leaderboard.component.html',
-  styleUrls: ["./leaderboard.component.css"],
+	selector: "app-leaderboard",
+	templateUrl: "./leaderboard.component.html",
+	styleUrls: ["./leaderboard.component.css"],
 })
 export class LeaderboardComponent implements OnInit {
-  leaderboard: { name: string; score: number; }[] = [];
-  currentGenre: string = ''; // To store and display the current genre
+	leaderboard: LeaderboardEntry[] = [];
+	currentGenreName: string = "";
+	genres: string[] = [];
+	selectedGenre: string = "All Genres";
+	constructor(private storageService: StorageService) {}
 
-  constructor(private storageService: StorageService) {}
-
-  ngOnInit(): void {
-    //mock data for leaderboard
-		if (!this.storageService.getLeaderboard().length) {
-			this.storageService.initializeWithMockData();
+	ngOnInit(): void {
+		this.genres = [
+			"All Genres",
+			...this.storageService.getLeaderBoardByGenre(),
+		];
+		// Fetch game settings to set the default genre filter
+		const gameSettings = this.storageService.load("gameSettings");
+		if (gameSettings && gameSettings.genreName) {
+			this.selectedGenre = gameSettings.genreName;
+		} else {
+			this.selectedGenre = "All Genres";
 		}
 
-      const gameSettings = JSON.parse(localStorage.getItem('gameSettings') || '{}');
-      this.currentGenre = gameSettings.genre || 'All Genres'; // Fallback to 'All Genres' if not set
-  
-      this.leaderboard = this.storageService.getLeaderboard(this.currentGenre !== 'All Genres' ? this.currentGenre : undefined);
-    }
-  
+		this.filterLeaderboard();
+	}
+
+	filterLeaderboard(): void {
+		this.leaderboard = this.storageService.getLeaderboard(
+			this.selectedGenre !== "All Genres" ? this.selectedGenre : undefined
+		);
+	}
+
+	onGenreChange(): void {
+		this.filterLeaderboard();
+	}
 }

@@ -24,16 +24,16 @@ export class ConfigureComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.loadGenres();
-		this.createForm(); 
+		this.createForm();
 	}
-	
+
 	private createForm() {
 		this.configForm = this.fb.group({
-		  selectedGenre: ["", Validators.required],
-		  difficulty: ["", Validators.required],
-		  gameType: ["", Validators.required], 
+			selectedGenre: ["", Validators.required],
+			difficulty: ["", Validators.required],
+			gameType: ["", Validators.required],
 		});
-	  }
+	}
 
 	async loadGenres() {
 		this.genres = await this.spotifyService.loadGenres();
@@ -45,12 +45,18 @@ export class ConfigureComponent implements OnInit {
 	}
 
 	onSubmit() {
-		console.log(this.configForm.value);
 		if (this.configForm.valid) {
-		  this.storageService.save("gameSettings", this.configForm.value);
-		  this.startGame(this.configForm.value);
+			const formValue = this.configForm.value;
+			formValue.selectedGenre = JSON.parse(formValue.selectedGenre);
+			this.storageService.save("gameSettings", {
+				...formValue,
+				genreId: formValue.selectedGenre.id,
+				genreName: formValue.selectedGenre.name,
+			});
+
+			this.startGame(formValue);
 		} else {
-		  alert("Please complete all selections.");
+			alert("Please complete all selections.");
 		}
-	  }
+	}
 }

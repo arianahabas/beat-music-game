@@ -6,7 +6,7 @@
 				<label for="selectedGenre">Select Genre:</label>
 				<select formControlName="selectedGenre" id="selectedGenre">
 					<option value="">Choose...</option>
-					<option *ngFor="let genre of genres" [value]="genre?.id">
+					<option *ngFor="let genre of genres" [ngValue]="genre | json">
 						{{ genre.name }}
 					</option>
 				</select>

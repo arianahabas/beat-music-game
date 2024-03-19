@@ -4,8 +4,13 @@ import { SpotifyService } from "./spotify.service";
 import { Router } from "@angular/router";
 import { StorageService } from "./storage.service";
 
+interface Genre {
+	id: string;
+	name: string;
+}
+
 interface GameSettings {
-	selectedGenre: string;
+	selectedGenre: Genre;
 	difficulty: string;
 	gameType: string;
 }
@@ -24,10 +29,11 @@ export class GameService {
 	private correctOption = new BehaviorSubject<string>("");
 	private tracks = new BehaviorSubject<any[]>([]);
 
-
-	constructor(private spotifyService: SpotifyService,
+	constructor(
+		private spotifyService: SpotifyService,
 		private storageService: StorageService,
-		private router: Router) { }
+		private router: Router
+	) {}
 
 	// Observable getters for components to subscribe to.
 	get timeLeft$(): Observable<number> {
@@ -68,16 +74,14 @@ export class GameService {
 	}
 
 	// Loads tracks based on the game settings, filters out tracks without a preview URL, and prepares the first game round.
-	private async loadTracksAndPrepare(settings: any) {
-		const playlists = await this.spotifyService.fetchPlaylistsByGenre(
-			settings.selectedGenre
-		);
+	private async loadTracksAndPrepare(settings: GameSettings) {
+		const genreId = settings.selectedGenre.id;
+		const playlists = await this.spotifyService.fetchPlaylistsByGenre(genreId);
 		if (playlists.length > 0) {
 			let tracks = await this.spotifyService.fetchTracksFromPlaylist(
 				playlists[0].id,
 				settings.difficulty
 			);
-			// Filter tracks to include only those with a preview_url.
 			tracks = tracks.filter((track) => track.preview_url);
 			if (tracks.length > 0) {
 				this.tracks.next(tracks);
@@ -150,14 +154,13 @@ export class GameService {
 
 	// Ends the game and clears the timer.
 	endGame() {
-		this.storageService.save('playerScore', this.score.getValue())
+		this.storageService.save("playerScore", this.score.getValue());
 		clearInterval(this.timerInterval);
 		this.router.navigate(["/results"]);
 	}
 
 	// Updates the score based on the correctness of the guess and moves to the next round.
 	makeGuess(isCorrect: boolean) {
-		//Add logic for scoring
 		if (isCorrect) {
 			this.incrementScore();
 		}
