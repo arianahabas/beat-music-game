@@ -20,3 +20,30 @@
 .rule {
     margin-left: 5px;
 }
+
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.start-button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.start-button:hover {
+    background-color: #048c5a;
+}
+
+.start-button:active {
+    background-color: #037050;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
