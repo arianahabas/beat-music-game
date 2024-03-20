@@ -97,6 +97,8 @@ export class GameService {
 				console.error(
 					"No tracks with previews found for the selected playlist and difficulty."
 				);
+				alert("No tracks with previews found for the selected playlist and difficulty. Please try again.");
+				this.router.navigateByUrl("/configure");
 			}
 		} else {
 			console.error("No playlists found for the selected genre.");
