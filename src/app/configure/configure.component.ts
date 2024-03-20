@@ -39,10 +39,7 @@ export class ConfigureComponent implements OnInit {
 		this.genres = await this.spotifyService.loadGenres();
 	}
 
-	private startGame(settings: any) {
-		this.gameService.startGame(settings);
-		this.router.navigate(["/game"]);
-	}
+
 
 	onSubmit() {
 		if (this.configForm.valid) {
@@ -53,8 +50,8 @@ export class ConfigureComponent implements OnInit {
 				genreId: formValue.selectedGenre.id,
 				genreName: formValue.selectedGenre.name,
 			});
-
-			this.startGame(formValue);
+	
+			this.router.navigate(["/game"]);
 		} else {
 			alert("Please complete all selections.");
 		}
