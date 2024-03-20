@@ -78,9 +78,14 @@ export class GameService {
 	private async loadTracksAndPrepare(settings: GameSettings) {
 		const genreId = settings.selectedGenre.id;
 		const playlists = await this.spotifyService.fetchPlaylistsByGenre(genreId);
+
 		if (playlists.length > 0) {
+			// Choose a random playlist from the fetched playlists
+			const randomIndex = Math.floor(Math.random() * playlists.length);
+			const selectedPlaylist = playlists[randomIndex];
+
 			let tracks = await this.spotifyService.fetchTracksFromPlaylist(
-				playlists[0].id,
+				selectedPlaylist.id,
 				settings.difficulty
 			);
 			tracks = tracks.filter((track) => track.preview_url);
