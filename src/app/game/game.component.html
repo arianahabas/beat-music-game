@@ -1,57 +1,97 @@
-<div *ngIf="showCountdown; else gameContent" class="countdown-container">
-	<div class="countdown-message">
-		<span>GAME BEGINS IN</span>
-		<span class="countdown-number">{{ countdown }}</span>
-	</div>
-	<div class="game-settings-preview">
-		<p>CURRENT GAME SETTINGS:</p>
-		<ul>
-			<li>Genre: {{ gameSettings.genreName }}</li>
-			<li>Difficulty: {{ gameSettings.difficulty }}</li>
-			<li>Game Type: {{ gameSettings.gameType }}</li>
-		</ul>
+<div
+	*ngIf="showCountdown; else gameContent"
+	class="flex min-h-screen bg-base-100 justify-center pt-40"
+>
+	<div class="modal-box w-3/4 h-3/4 text-center bg-base-300">
+		<div class="countdown-message">
+			<span class="text-primary">Game begins in</span>
+			<span class="countdown-number">{{ countdown }}</span>
+		</div>
 	</div>
 </div>
 
 <ng-template #gameContent>
-	<div class="container">
-		<div class="timer" [ngClass]="{ 'timer-red': timeLeft <= 10 }">
-			<h2>{{ timeLeft }}</h2>
+	<div class="flex flex-col align-center pt-10 bg-base-100 min-h-screen">
+		<h1
+			class="text-7xl font-black text-primary grid place-content-center"
+			*ngIf="gameSettings.gameType === 'song'"
+		>
+			Guess The Song.
+		</h1>
+		<div class="flex justify-center">
+			<h1
+				class="text-7xl font-black text-primary grid place-content-center"
+				*ngIf="gameSettings.gameType === 'artist'"
+			>
+				Guess The Artist.
+			</h1>
 		</div>
-		<div class="songContainer">
-			<h1 class="title">BEAT THE BEAT</h1>
-			<ng-container *ngIf="currentTrack">
-				<app-audio-snippet
-					[song]="currentTrack.preview_url"
-				></app-audio-snippet>
-			</ng-container>
+
+		<div class="flex justify-between px-10 pt-6">
+			<div>
+				<div class="stats shadow">
+					<div class="stat text-center">
+						<div class="stat-title">Time</div>
+						<span class="countdown font-mono text-8xl">
+							<span style="--value: {{ timeLeft }}"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="flex flex-col w-full">
+				<div class="divider divider-start divider-neutral"></div>
+				<div class="divider divider-neutral">
+					<ng-container *ngIf="currentTrack">
+						<app-audio-snippet
+							[song]="currentTrack.preview_url"
+						></app-audio-snippet>
+					</ng-container>
+				</div>
+				<div class="divider divider-end divider-neutral"></div>
+			</div>
+
+			<div>
+				<div class="stats shadow">
+					<div class="stat text-center">
+						<div class="stat-title">Score</div>
+						<span class="countdown font-mono text-8xl">
+							<span style="--value: {{ score }}"></span>
+						</span>
+					</div>
+				</div>
+			</div>
 		</div>
-		<h2>Score: {{ score }}</h2>
-	</div>
 
-	<div class="choiceContainer">
-		<h2 *ngIf="gameSettings.gameType === 'song'">WHAT SONG IS PLAYING?</h2>
-		<h2 *ngIf="gameSettings.gameType === 'artist'">WHO SINGS THIS SONG?</h2>
-
-		<app-guess-input
-			[options]="options"
-			(guessMade)="handleGuess($event)"
-		></app-guess-input>
+		<div class="flex justify-center pt-10 z-1">
+			<div class="card w-3/5 h-3/4 bg-base-300 shadow-xl">
+				<div class="card-body">
+					<div class="pb-6">
+						<h2 class="card-title"></h2>
+						<app-guess-input
+							[options]="options"
+							(guessMade)="handleGuess($event)"
+						></app-guess-input>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div
-			class="feedback-container"
-			[ngClass]="{ 'feedback-visible': feedbackVisible }"
+			*ngIf="feedbackVisible"
+			class="toast toast-end toast-bottom"
+			[ngClass]="{ 'toast-slide-out': feedbackSlideOut }"
 		>
-			<div
-				class="feedback-message"
-				[ngClass]="{
-					correct: isCorrectAnswer,
-					incorrect: isCorrectAnswer === false
-				}"
-			>
-				<span>{{
-					isCorrectAnswer ? "Correct! 🌟" : "Better luck next time. 😕"
-				}}</span>
+			<div *ngIf="isCorrectAnswer" class="alert alert-success">
+				<div>
+					<span>Correct! 🌟</span>
+				</div>
+			</div>
+
+			<div *ngIf="isCorrectAnswer === false" class="alert alert-warning">
+				<div>
+					<span>Better luck next time. 😕</span>
+				</div>
 			</div>
 		</div>
 	</div>

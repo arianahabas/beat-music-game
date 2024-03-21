@@ -1,19 +1,79 @@
-<nav class="navbar">
-	<a
-		routerLink="/"
-		routerLinkActive="active"
-		[routerLinkActiveOptions]="{ exact: true }"
-	>
-		<i class="fas fa-home"></i> Home
-	</a>
-	<div class="navbar-spacer"></div>
-	<a routerLink="/leaderboard" routerLinkActive="active">
-		<i class="fas fa-trophy"></i> LeaderBoard
-	</a>
-	<a routerLink="/configure" routerLinkActive="active">
-		<i class="fas fa-cog"></i> Settings
-	</a>
-	<a routerLink="/game" routerLinkActive="active">
-		<i class="fas fa-gamepad"></i> Game
-	</a>
-</nav>
+<div class="navbar bg-base-100">
+	<div class="flex-1">
+		<a class="btn btn-ghost text-xl" routerLink="/">Beat.</a>
+	</div>
+	<div class="flex-none">
+		<ul class="menu menu-horizontal px-1">
+			<li>
+				<a routerLink="/leaderboard"> LeaderBoard </a>
+			</li>
+			<li>
+				<a routerLink="/configure">Settings</a>
+			</li>
+			<li>
+				<a routerLink="/game">Game</a>
+			</li>
+			<li>
+				<details>
+					<summary>Themes</summary>
+					<ul class="p-2 bg-base-100 rounded-t-none">
+						<li>
+							<input
+								type="radio"
+								name="theme-dropdown"
+								class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+								aria-label="Default"
+								value="default"
+							/>
+						</li>
+						<li>
+							<input
+								type="radio"
+								name="theme-dropdown"
+								class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+								aria-label="Light"
+								value="light"
+							/>
+						</li>
+						<li>
+							<input
+								type="radio"
+								name="theme-dropdown"
+								class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+								aria-label="Cyberpunk"
+								value="cyberpunk"
+							/>
+						</li>
+						<li>
+							<input
+								type="radio"
+								name="theme-dropdown"
+								class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+								aria-label="Acid"
+								value="acid"
+							/>
+						</li>
+						<li>
+							<input
+								type="radio"
+								name="theme-dropdown"
+								class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+								aria-label="Aqua"
+								value="aqua"
+							/>
+						</li>
+						<li>
+							<input
+								type="radio"
+								name="theme-dropdown"
+								class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+								aria-label="Cmyk"
+								value="cmyk"
+							/>
+						</li>
+					</ul>
+				</details>
+			</li>
+		</ul>
+	</div>
+</div>
