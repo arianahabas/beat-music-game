@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-guess-input',
   templateUrl: './guess-input.component.html',
-  styleUrls: ['./guess-input.component.css']
 })
 export class GuessInputComponent {
   @Input() options: string[] = [];

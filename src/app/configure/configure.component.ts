@@ -8,17 +8,18 @@ import { GameService } from "src/services/game.service";
 @Component({
 	selector: "app-configure",
 	templateUrl: "./configure.component.html",
-	styleUrls: ["./configure.component.css"],
 })
 export class ConfigureComponent implements OnInit {
 	genres: any[] = [];
 	configForm!: FormGroup;
 
+	showAlert: boolean = false;
+	alertMessage: string = "";
+
 	constructor(
 		private fb: FormBuilder,
 		private spotifyService: SpotifyService,
 		private storageService: StorageService,
-		private gameService: GameService,
 		private router: Router
 	) {}
 
@@ -39,8 +40,6 @@ export class ConfigureComponent implements OnInit {
 		this.genres = await this.spotifyService.loadGenres();
 	}
 
-
-
 	onSubmit() {
 		if (this.configForm.valid) {
 			const formValue = this.configForm.value;
@@ -50,10 +49,14 @@ export class ConfigureComponent implements OnInit {
 				genreId: formValue.selectedGenre.id,
 				genreName: formValue.selectedGenre.name,
 			});
-	
+			this.showAlert = false;
 			this.router.navigate(["/game"]);
 		} else {
-			alert("Please complete all selections.");
+			this.alertMessage = "Please complete all selections.";
+			this.showAlert = true;
 		}
+	}
+	closeAlert() {
+		this.showAlert = false;
 	}
 }

@@ -19,7 +19,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	score: number = 0;
 
 	//timer
-	countdown: number = 5;
+	countdown: number = 3;
 	showCountdown: boolean = true;
 	timeLeft: number = 0;
 

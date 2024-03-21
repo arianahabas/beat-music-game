@@ -1,63 +1,97 @@
-<div class="container">
-	<h1>CONFIGURE GAME SETTINGS</h1>
-	<div class="configure-form">
-		<form [formGroup]="configForm" (ngSubmit)="onSubmit()">
-			<div class="form-group">
-				<label for="selectedGenre">Select Genre:</label>
-				<select formControlName="selectedGenre" id="selectedGenre">
-					<option value="">Choose...</option>
-					<option *ngFor="let genre of genres" [ngValue]="genre | json">
-						{{ genre.name }}
-					</option>
-				</select>
-				<div
-					*ngIf="
-						configForm.get('selectedGenre')?.invalid &&
-						(configForm.get('selectedGenre')?.dirty ||
-							configForm.get('selectedGenre')?.touched)
-					"
-				>
-					<small class="text-danger">Please choose a genre.</small>
+<div class="flex flex-col items-center bg-base-100 min-h-screen">
+	<div class="card w-96 h-3/4 bg-base-300 shadow-xl mt-40">
+		<div class="card-body">
+			<h2 class="card-title">Configure Game Settings</h2>
+			<form [formGroup]="configForm" (ngSubmit)="onSubmit()">
+				<div class="form-group py-4">
+					<select
+						class="select select-primary w-full max-w-xs"
+						formControlName="selectedGenre"
+						id="selectedGenre"
+					>
+						<option value="">Genre</option>
+						<option *ngFor="let genre of genres" [ngValue]="genre | json">
+							{{ genre.name }}
+						</option>
+					</select>
+					<div
+						*ngIf="
+							configForm.get('selectedGenre')?.invalid &&
+							(configForm.get('selectedGenre')?.dirty ||
+								configForm.get('selectedGenre')?.touched)
+						"
+					>
+						<small class="text-danger">Please choose a genre.</small>
+					</div>
 				</div>
-			</div>
 
-			<div class="form-group">
-				<label for="difficulty">Select Difficulty:</label>
-				<select formControlName="difficulty" id="difficulty">
-					<option value="">Choose...</option>
-					<option value="easy">Easy</option>
-					<option value="medium">Medium</option>
-					<option value="hard">Hard</option>
-				</select>
-				<div
-					*ngIf="
-						configForm.get('difficulty')?.invalid &&
-						(configForm.get('difficulty')?.dirty ||
-							configForm.get('difficulty')?.touched)
-					"
-				>
-					<small class="text-danger">Please choose a difficulty.</small>
+				<div class="form-group">
+					<select
+						class="select select-primary w-full max-w-xs"
+						formControlName="difficulty"
+						id="difficulty"
+					>
+						<option value="">Difficulty</option>
+						<option value="easy">Easy</option>
+						<option value="medium">Medium</option>
+						<option value="hard">Hard</option>
+					</select>
+					<div
+						*ngIf="
+							configForm.get('difficulty')?.invalid &&
+							(configForm.get('difficulty')?.dirty ||
+								configForm.get('difficulty')?.touched)
+						"
+					>
+						<small class="text-danger">Please choose a difficulty.</small>
+					</div>
 				</div>
-			</div>
-			<div class="form-group">
-				<label for="gameType">Select Game Type:</label>
-				<select formControlName="gameType" id="gameType">
-					<option value="">Choose...</option>
-					<option value="artist">Guess By Artist</option>
-					<option value="song">Guess By Song</option>
-				</select>
-				<div
-					*ngIf="
-						configForm.get('gameType')?.invalid &&
-						(configForm.get('gameType')?.dirty ||
-							configForm.get('gameType')?.touched)
-					"
-				>
-					<small class="text-danger">Please choose a game type.</small>
-				</div>
-			</div>
 
-			<button type="submit" class="btn btn-primary">Start Game</button>
-		</form>
+				<div class="form-group py-4">
+					<div class="form-control" formControlName="gameType" id="gameType">
+						<label class="label cursor-pointer">
+							<span class="label-text">Guess the Artist</span>
+							<input
+								type="radio"
+								name="gameType"
+								value="artist"
+								class="radio checked:bg-primary"
+								formControlName="gameType"
+							/>
+						</label>
+					</div>
+					<div class="form-control">
+						<label class="label cursor-pointer">
+							<span class="label-text">Guess the Song</span>
+							<input
+								type="radio"
+								name="gameType"
+								value="song"
+								class="radio checked:bg-primary"
+								formControlName="gameType"
+							/>
+						</label>
+					</div>
+
+					<div
+						*ngIf="configForm.get('gameType')?.errors?.['required'] && 
+						(configForm.get('gameType')?.dirty || configForm.get('gameType')?.touched)"
+					>
+						<small class="text-danger">Please choose a game type.</small>
+					</div>
+				</div>
+
+				<div class="card-actions justify-end">
+					<button type="submit" class="btn btn-primary">Start Game</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div
+		class="alert alert-info shadow-lg fixed bottom-0 inset-x-0 mx-auto flex justify-between items-center w-full max-w-md p-4 mb-4"
+		*ngIf="showAlert"
+	>
+		<span>{{ alertMessage }}</span>
+		<button class="btn btn-sm btn-ghost" (click)="closeAlert()">Close</button>
 	</div>
 </div>

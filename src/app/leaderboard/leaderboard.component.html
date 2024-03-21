@@ -1,22 +1,53 @@
-<div class="container">
-	<div class="leaderboard-container">
-		<h1>LEADERBOARD</h1>
-		<select [(ngModel)]="selectedGenre" (change)="onGenreChange()">
-			<option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
-		</select>
-		<div class="leaderboard">
-			<div class="leaderboard-header">
-				<span>Rank</span>
-				<span>Name</span>
-				<span>Score</span>
+<div class="flex justify-center pt-20 bg-base-100 min-h-screen">
+	<div class="card w-3/5 h-3/4 bg-base-300 shadow-xl">
+		<div class="card-body">
+			<div class="flex justify-between pb-6">
+				<h2 class="card-title">Leaderboard</h2>
+
+				<select
+					class="select select-primary w-full max-w-xs"
+					[(ngModel)]="selectedGenre"
+					(change)="onGenreChange()"
+				>
+					<option *ngFor="let genre of genres" [value]="genre">
+						{{ genre }}
+					</option>
+				</select>
 			</div>
-			<div
-				class="leaderboard-entry"
-				*ngFor="let entry of leaderboard; let i = index"
-			>
-				<span>{{ i + 1 }}</span>
-				<span>{{ entry.name }}</span>
-				<span>{{ entry.score }}</span>
+
+			<div class="overflow-x-auto">
+				<table class="table table-zebra">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Score</th>
+							<th>Rank</th>
+						</tr>
+					</thead>
+					<tbody>
+			
+						<tr *ngFor="let entry of leaderboard; let i = index">
+							<td>
+								<div class="flex items-center gap-3">
+									<div class="avatar placeholder">
+										<div class="bg-neutral rounded-full w-12">
+											<span class="text-3xl">💀</span>
+										</div>
+									</div>
+									<div>
+										<div class="font-bold">{{ entry.name }}</div>
+										<div class="text-sm opacity-50">United States</div>
+									</div>
+								</div>
+							</td>
+							<td>
+								{{ entry.score }}
+								<br />
+							</td>
+							<td>{{ i + 1 }}</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
